@@ -5,9 +5,9 @@ VSSIM is an SSD Simulator performed with full virtualized system based on QEMU. 
  By using running virtual machine as a simulation environment, VSSIM can process workload in realtime and preserve the system status after a session of experiment, in other words, VSSIM provides methods to module the actual behavior of the SSD. 
 
 1. VSSIM Code Download
-Download the latest version from github
+Download the modified version from github
 
-    $ git clone https://github.com/ESOS-Lab/VSSIM.git
+    $ git clone https://github.com/nmsudatalab/VSSIM.git
 
 2. Compile /Execution Setting
 
