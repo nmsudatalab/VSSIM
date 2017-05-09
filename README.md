@@ -1,36 +1,8 @@
 VSSIM: Virtual machine based SSD SIMulator
 -----
-* Maintainer : Jinsoo Yoo (jedisty@hanyang.ac.kr)
-* Contributor : Joongwoo Hwang, Haesung Kim, Joohyun Kim 
 
 VSSIM is an SSD Simulator performed with full virtualized system based on QEMU. VSSIM operates on top of QEMU/KVM with software based SSD module as an IDE device. VSSIM runs in real-time and allows the user to measure both the host performance and SSD behavior under various design choices.
  By using running virtual machine as a simulation environment, VSSIM can process workload in realtime and preserve the system status after a session of experiment, in other words, VSSIM provides methods to module the actual behavior of the SSD. 
-
-What is the merit?
------
-VSSIM can flexibly model the various hardware components, e.g. the number of channels, the number of ways, block size, page size, the number of planes per chip, program, erase, read latency of NAND cells, channel switch delay, and way switch delay. VSSIM can also facilitate the implementation of the SSD firmware algorithms. 
-
-Publication
------
-* Jinsoo Yoo, Youjip Won, Joongwoo Hwang, Sooyong Kang, Jongmoo Choi, Sungroh Yoon and Jaehyuk Cha, VSSIM: Virtual Machine based SSD Simulator In Proc. of Mass Storage Systems and Technologies (MSST), 2013 IEEE 29th Symposium on, Long Beach, California, USA, May 6-10, 2013
-
-* Joohyun Kim, Haesung Kim, Seongjin Lee, Youjip Won, FTL Design for TRIM Command In Proc. of Software Support for Portable Storage (IWSSPS), 2010 15th International Workshop on, Scottsdale, AZ, USA, October 28, 2010
-
-Acknowledgement
------
-* This work is sponsored by IT R&D program MKE/KEIT. [No.10035202, Large Scale hyper-MLC SSD Technology Development].
-
-Architecture
------
-![VSSIM Architecture]( http://dmclab.hanyang.ac.kr/wikidata/img/vssim_architecture.jpg)
-
-User Guide
------
-#### Settings
-
-The setting was recorded in a Linux environment as follows.
-- Linux OS: Ubuntu 14.04
-- Kernel Version: 3.13.0-34-generic
 
 1. VSSIM Code Download
 Download the latest version from github
@@ -171,44 +143,4 @@ This section explains the entire process of actually compiling VSSIM and making 
         ./qemu-system-x86_64 -m 2048 -cpu core2duo -hda /mnt/rd/ssd.img -cdrom ../../OS/MW_WIN7_AIO_FINAL_FF_DVD.iso -usbdevice tablet
   
     MW_WIN7_AIO_FINAL_FF_DVD.iso’ File should be located in VSSIM/OS. 
-
-
-#### Error Settlement
-
-1. Failure to connect with SSD Monitor
-
-    Check port number of SSD Monitor and IP setting
-
-        $ cd VSSIM/MONITOR/SSD_MONITOR_PM/
-        $ vi monitorform.cpp
-        // Check port number and IP setting in 34th line
-        // socket->connetToHost(“127.0.0.1”, 9995)
-
-    Check port number setting of SSD Log Manager
-
-        $ cd /VSSIM/SSD_MODULE/
-        $ vi ssd_log_manager.c
-
-    Check port number in 76th line, and see if it it identical to the port number setting of SSD Monitor
-
-        serverAddr.sin_port = htons(9995);
-
-    ※ Port number that was set could be in use in other applications. Change the port number and try executing. (ex, 9990~9998) 
-
-
-Course Material
------
-VSSIM is designed to be used as an excellent experiment platform to study the various aspects of an SSD. We provide several labs to help the instructor lead the class. VSSIM is open source and you are welcome to share the lab materials which you have developed. 
- 
-#### Lab1.
- 
-Configure 8 channel, 2 way SSD. Page size is 4 KByte. NAND Latency is set to 300 usec, 900 usec, and 2.5 msec for read, program and erase. Channel switch delay and way switch delay are 20 msec, and 80 msec, respectively. 
-
- 
-    1. Install Linux operating system on SSD. Measure the time to install Linux OS.
-    2. Draw the CDF of IO sizes generated during Linux installation.
-    3. Determine the number of write and read operations in installing Linux OS.
-    4. Configure 2 channel and 8 way SSD and repeat the experiments 1, 2, and 3 again.
-    5. Configure 4 channel and 4 way SSD and repeat the experiments 1, 2, and 3 again.
-    6. Discuss the effect the channel and way parallelism over SSD performance and its implication on host performance. 
 
